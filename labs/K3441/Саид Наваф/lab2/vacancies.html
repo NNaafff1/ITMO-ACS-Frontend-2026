@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Поиск вакансий — Работа рядом</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+
+  <header>
+    <nav class="navbar navbar-expand-lg bg-white border-bottom">
+      <div class="container">
+        <a class="navbar-brand text-primary" href="index.html">Работа рядом</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#mainNav" aria-controls="mainNav"
+                aria-expanded="false" aria-label="Открыть меню">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link active" href="vacancies.html" aria-current="page">Вакансии</a></li>
+            <li class="nav-item"><a class="nav-link" href="profile.html">Мой кабинет</a></li>
+            <li class="nav-item"><a class="nav-link" href="employer.html">Работодателям</a></li>
+          </ul>
+          <div class="d-flex gap-2">
+            <a class="btn btn-outline-primary" href="login.html">Войти</a>
+            <a class="btn btn-primary" href="register.html">Регистрация</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="py-4">
+    <div class="container">
+      <h1 class="h3 fw-bold mb-4">Поиск вакансий</h1>
+
+      <div class="row g-4">
+
+        <!-- Фильтры -->
+        <aside class="col-lg-3" aria-label="Фильтры вакансий">
+          <form id="filterForm" class="card filters-card">
+            <div class="card-body">
+              <h2 class="h6 fw-bold mb-3">Фильтры</h2>
+
+              <div class="mb-3">
+                <label for="fSearch" class="form-label">Должность или компания</label>
+                <input type="search" class="form-control" id="fSearch" placeholder="Например, верстальщик">
+              </div>
+
+              <div class="mb-3">
+                <label for="fIndustry" class="form-label">Отрасль</label>
+                <select class="form-select" id="fIndustry">
+                  <option value="">Любая</option>
+                  <option value="it">IT и разработка</option>
+                  <option value="marketing">Маркетинг</option>
+                  <option value="finance">Финансы</option>
+                  <option value="education">Образование</option>
+                  <option value="trade">Торговля</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="fSalary" class="form-label">Зарплата от, ₽</label>
+                <input type="number" class="form-control" id="fSalary" min="0" step="5000" placeholder="0">
+              </div>
+
+              <div class="mb-4">
+                <label for="fExperience" class="form-label">Опыт работы</label>
+                <select class="form-select" id="fExperience">
+                  <option value="">Любой</option>
+                  <option value="none">Без опыта</option>
+                  <option value="1-3">1–3 года</option>
+                  <option value="3-6">3–6 лет</option>
+                  <option value="6+">Более 6 лет</option>
+                </select>
+              </div>
+
+              <button type="reset" class="btn btn-outline-secondary w-100" id="resetFilters">Сбросить фильтры</button>
+            </div>
+          </form>
+        </aside>
+
+        <!-- Результаты -->
+        <section class="col-lg-9" aria-labelledby="resultsTitle">
+          <h2 class="h6 text-secondary mb-3" id="resultsTitle" aria-live="polite">
+            Найдено вакансий: <span id="resultsCount">9</span>
+          </h2>
+
+          <div class="row g-3" id="vacancyList">
+          <div class="col-md-6 vacancy-item" data-title="junior frontend-разработчик нева софт" data-industry="it" data-experience="1-3" data-salary="90000">
+            <article class="card vacancy-card h-100">
+              <div class="card-body d-flex flex-column">
+                <h2 class="h5 mb-1"><a class="text-decoration-none" href="vacancy.html">Junior Frontend-разработчик</a></h2>
+                <p class="text-secondary mb-2">Нева Софт · Санкт-Петербург</p>
+                <p class="salary fs-5 mb-3">от 90 000 ₽</p>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                  <span class="badge text-bg-light border">IT и разработка</span>
+                  <span class="badge text-bg-light border">1–3 года</span>
+                </div>
+                <a class="btn btn-outline-primary mt-auto align-self-start" href="vacancy.html">Подробнее</a>
+              </div>
+            </article>
+          </div>
+          <div class="col-md-6 vacancy-item" data-title="верстальщик веб-студия «пиксель»" data-industry="it" data-experience="none" data-salary="70000">
+            <article class="card vacancy-card h-100">
+              <div class="card-body d-flex flex-column">
+                <h2 class="h5 mb-1"><a class="text-decoration-none" href="vacancy.html">Верстальщик</a></h2>
+                <p class="text-secondary mb-2">Веб-студия «Пиксель» · Москва</p>
+                <p class="salary fs-5 mb-3">от 70 000 ₽</p>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                  <span class="badge text-bg-light border">IT и разработка</span>
+                  <span class="badge text-bg-light border">Без опыта</span>
+                </div>
+                <a class="btn btn-outline-primary mt-auto align-self-start" href="vacancy.html">Подробнее</a>
+              </div>
+            </article>
+          </div>
+          <div class="col-md-6 vacancy-item" data-title="менеджер по маркетингу балтика диджитал" data-industry="marketing" data-experience="1-3" data-salary="85000">
+            <article class="card vacancy-card h-100">
+              <div class="card-body d-flex flex-column">
+                <h2 class="h5 mb-1"><a class="text-decoration-none" href="vacancy.html">Менеджер по маркетингу</a></h2>
+                <p class="text-secondary mb-2">Балтика Диджитал · Санкт-Петербург</p>
+                <p class="salary fs-5 mb-3">от 85 000 ₽</p>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                  <span class="badge text-bg-light border">Маркетинг</span>
+                  <span class="badge text-bg-light border">1–3 года</span>
+                </div>
+                <a class="btn btn-outline-primary mt-auto align-self-start" href="vacancy.html">Подробнее</a>
+              </div>
+            </article>
+          </div>
+          <div class="col-md-6 vacancy-item" data-title="финансовый аналитик северный банк" data-industry="finance" data-experience="3-6" data-salary="150000">
+            <article class="card vacancy-card h-100">
+              <div class="card-body d-flex flex-column">
+                <h2 class="h5 mb-1"><a class="text-decoration-none" href="vacancy.html">Финансовый аналитик</a></h2>
+                <p class="text-secondary mb-2">Северный банк · Москва</p>
+                <p class="salary fs-5 mb-3">от 150 000 ₽</p>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                  <span class="badge text-bg-light border">Финансы</span>
+                  <span class="badge text-bg-light border">3–6 лет</span>
+                </div>
+                <a class="btn btn-outline-primary mt-auto align-self-start" href="vacancy.html">Подробнее</a>
+              </div>
+            </article>
+          </div>
+          <div class="col-md-6 vacancy-item" data-title="преподаватель английского школа «лингва»" data-industry="education" data-experience="none" data-salary="55000">
+            <article class="card vacancy-card h-100">
+              <div class="card-body d-flex flex-column">
+                <h2 class="h5 mb-1"><a class="text-decoration-none" href="vacancy.html">Преподаватель английского</a></h2>
+                <p class="text-secondary mb-2">Школа «Лингва» · Казань</p>
+                <p class="salary fs-5 mb-3">от 55 000 ₽</p>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                  <span class="badge text-bg-light border">Образование</span>
+                  <span class="badge text-bg-light border">Без опыта</span>
+                </div>
+                <a class="btn btn-outline-primary mt-auto align-self-start" href="vacancy.html">Подробнее</a>
+              </div>
+            </article>
+          </div>
+          <div class="col-md-6 vacancy-item" data-title="старший frontend-разработчик нева софт" data-industry="it" data-experience="6+" data-salary="250000">
+            <article class="card vacancy-card h-100">
+              <div class="card-body d-flex flex-column">
+                <h2 class="h5 mb-1"><a class="text-decoration-none" href="vacancy.html">Старший frontend-разработчик</a></h2>
+                <p class="text-secondary mb-2">Нева Софт · Удалённо</p>
+                <p class="salary fs-5 mb-3">от 250 000 ₽</p>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                  <span class="badge text-bg-light border">IT и разработка</span>
+                  <span class="badge text-bg-light border">Более 6 лет</span>
+                </div>
+                <a class="btn btn-outline-primary mt-auto align-self-start" href="vacancy.html">Подробнее</a>
+              </div>
+            </article>
+          </div>
+          <div class="col-md-6 vacancy-item" data-title="продавец-консультант сеть «домовой»" data-industry="trade" data-experience="none" data-salary="45000">
+            <article class="card vacancy-card h-100">
+              <div class="card-body d-flex flex-column">
+                <h2 class="h5 mb-1"><a class="text-decoration-none" href="vacancy.html">Продавец-консультант</a></h2>
+                <p class="text-secondary mb-2">Сеть «Домовой» · Санкт-Петербург</p>
+                <p class="salary fs-5 mb-3">от 45 000 ₽</p>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                  <span class="badge text-bg-light border">Торговля</span>
+                  <span class="badge text-bg-light border">Без опыта</span>
+                </div>
+                <a class="btn btn-outline-primary mt-auto align-self-start" href="vacancy.html">Подробнее</a>
+              </div>
+            </article>
+          </div>
+          <div class="col-md-6 vacancy-item" data-title="бухгалтер северный банк" data-industry="finance" data-experience="3-6" data-salary="95000">
+            <article class="card vacancy-card h-100">
+              <div class="card-body d-flex flex-column">
+                <h2 class="h5 mb-1"><a class="text-decoration-none" href="vacancy.html">Бухгалтер</a></h2>
+                <p class="text-secondary mb-2">Северный банк · Москва</p>
+                <p class="salary fs-5 mb-3">от 95 000 ₽</p>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                  <span class="badge text-bg-light border">Финансы</span>
+                  <span class="badge text-bg-light border">3–6 лет</span>
+                </div>
+                <a class="btn btn-outline-primary mt-auto align-self-start" href="vacancy.html">Подробнее</a>
+              </div>
+            </article>
+          </div>
+          <div class="col-md-6 vacancy-item" data-title="smm-специалист веб-студия «пиксель»" data-industry="marketing" data-experience="none" data-salary="60000">
+            <article class="card vacancy-card h-100">
+              <div class="card-body d-flex flex-column">
+                <h2 class="h5 mb-1"><a class="text-decoration-none" href="vacancy.html">SMM-специалист</a></h2>
+                <p class="text-secondary mb-2">Веб-студия «Пиксель» · Удалённо</p>
+                <p class="salary fs-5 mb-3">от 60 000 ₽</p>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                  <span class="badge text-bg-light border">Маркетинг</span>
+                  <span class="badge text-bg-light border">Без опыта</span>
+                </div>
+                <a class="btn btn-outline-primary mt-auto align-self-start" href="vacancy.html">Подробнее</a>
+              </div>
+            </article>
+          </div>
+          </div>
+
+          <div class="alert alert-secondary d-none mt-3" id="emptyMessage" role="status">
+            Ничего не найдено. Измените условия поиска или сбросьте фильтры.
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer py-4">
+    <div class="container text-secondary small">
+      © <span id="current-year">2026</span> Работа рядом. Учебный проект, ИТМО.
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/vacancies.js"></script>
+</body>
+</html>

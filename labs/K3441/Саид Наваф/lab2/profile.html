@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Личный кабинет — Работа рядом</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+
+  <header>
+    <nav class="navbar navbar-expand-lg bg-white border-bottom">
+      <div class="container">
+        <a class="navbar-brand text-primary" href="index.html">Работа рядом</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#mainNav" aria-controls="mainNav"
+                aria-expanded="false" aria-label="Открыть меню">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link" href="vacancies.html">Вакансии</a></li>
+            <li class="nav-item"><a class="nav-link active" href="profile.html" aria-current="page">Мой кабинет</a></li>
+            <li class="nav-item"><a class="nav-link" href="employer.html">Работодателям</a></li>
+          </ul>
+          <div class="d-flex gap-2">
+            <a class="btn btn-outline-primary" href="index.html">Выйти</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="py-4">
+    <div class="container">
+      <h1 class="h3 fw-bold mb-4">Личный кабинет</h1>
+
+      <div class="row g-4">
+
+        <!-- Левая колонка: данные пользователя -->
+        <div class="col-lg-4">
+          <div class="card profile-card">
+            <div class="card-body text-center p-4">
+              <div class="avatar mb-3" aria-hidden="true" id="avatarInitials">СН</div>
+              <h2 class="h5 mb-1" id="fullName">Саид Наваф</h2>
+              <p class="text-secondary mb-3" id="resumePositionShort">Frontend-разработчик</p>
+              <ul class="list-unstyled text-start small mb-0">
+                <li class="mb-1"><span class="text-secondary">Почта:</span> name@example.com</li>
+                <li class="mb-1"><span class="text-secondary">Город:</span> <span id="cityText">Санкт-Петербург</span></li>
+                <li><span class="text-secondary">Роль:</span> соискатель</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Правая колонка: вкладки -->
+        <div class="col-lg-8">
+          <ul class="nav nav-tabs mb-3" id="profileTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="resume-tab" data-bs-toggle="tab"
+                      data-bs-target="#resume" type="button" role="tab"
+                      aria-controls="resume" aria-selected="true">Резюме</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="responses-tab" data-bs-toggle="tab"
+                      data-bs-target="#responses" type="button" role="tab"
+                      aria-controls="responses" aria-selected="false">Мои отклики</button>
+            </li>
+          </ul>
+
+          <div class="tab-content">
+
+            <!-- Вкладка «Резюме» -->
+            <div class="tab-pane fade show active" id="resume" role="tabpanel" aria-labelledby="resume-tab" tabindex="0">
+              <div class="card profile-card">
+                <div class="card-body p-4">
+                  <div class="d-flex justify-content-between align-items-start mb-4">
+                    <div>
+                      <h2 class="h4 mb-1" id="resumePosition">Frontend-разработчик</h2>
+                      <p class="salary text-primary fw-bold mb-0" id="resumeSalary">от 90 000 ₽</p>
+                    </div>
+                    <button class="btn btn-primary" type="button"
+                            data-bs-toggle="modal" data-bs-target="#editResumeModal">
+                      Редактировать резюме
+                    </button>
+                  </div>
+
+                  <div class="row mb-3">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <div class="resume-label">Опыт работы</div>
+                      <div id="resumeExperience">1–3 года</div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="resume-label">Отрасль</div>
+                      <div id="resumeIndustry">IT и разработка</div>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <div class="resume-label">Навыки</div>
+                    <div class="d-flex flex-wrap gap-2" id="resumeSkills">
+                      <span class="badge text-bg-primary">HTML</span>
+                      <span class="badge text-bg-primary">CSS</span>
+                      <span class="badge text-bg-primary">Bootstrap</span>
+                      <span class="badge text-bg-primary">JavaScript</span>
+                    </div>
+                  </div>
+
+                  <div class="mb-4">
+                    <div class="resume-label">О себе</div>
+                    <p class="mb-0" id="resumeAbout">Студент ИТМО. Верстаю адаптивные сайты и учусь работать с Vue.js.</p>
+                  </div>
+
+                  <h3 class="h6 fw-bold">Места работы и учёбы</h3>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item px-0">
+                      <div class="fw-semibold">Университет ИТМО</div>
+                      <div class="text-secondary small">Бакалавриат, 2023 — настоящее время</div>
+                    </li>
+                    <li class="list-group-item px-0">
+                      <div class="fw-semibold">Учебные проекты</div>
+                      <div class="text-secondary small">Вёрстка сайтов на HTML, CSS и Bootstrap</div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Вкладка «Мои отклики» -->
+            <div class="tab-pane fade" id="responses" role="tabpanel" aria-labelledby="responses-tab" tabindex="0">
+              <div class="card profile-card">
+                <div class="table-responsive">
+                  <table class="table align-middle mb-0">
+                    <caption class="visually-hidden">Список откликов на вакансии</caption>
+                    <thead>
+                      <tr>
+                        <th scope="col">Вакансия</th>
+                        <th scope="col">Компания</th>
+                        <th scope="col">Статус</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><a href="vacancy.html">Junior Frontend-разработчик</a></td>
+                        <td>Нева Софт</td>
+                        <td><span class="badge text-bg-warning">На рассмотрении</span></td>
+                      </tr>
+                      <tr>
+                        <td><a href="vacancy.html">Верстальщик</a></td>
+                        <td>Веб-студия «Пиксель»</td>
+                        <td><span class="badge text-bg-success">Приглашение</span></td>
+                      </tr>
+                      <tr>
+                        <td><a href="vacancy.html">Стажёр-разработчик</a></td>
+                        <td>Балтика Диджитал</td>
+                        <td><span class="badge text-bg-secondary">Отказ</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Модальное окно редактирования резюме -->
+  <div class="modal fade" id="editResumeModal" tabindex="-1" aria-labelledby="editResumeLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <form id="resumeForm" class="needs-validation" novalidate>
+          <div class="modal-header">
+            <h2 class="modal-title fs-5" id="editResumeLabel">Редактирование резюме</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row g-3">
+              <div class="col-md-8">
+                <label for="inPosition" class="form-label">Желаемая должность</label>
+                <input type="text" class="form-control" id="inPosition" required>
+                <div class="invalid-feedback">Укажите должность.</div>
+              </div>
+              <div class="col-md-4">
+                <label for="inSalary" class="form-label">Зарплата от, ₽</label>
+                <input type="number" class="form-control" id="inSalary" min="0" step="1000" required>
+                <div class="invalid-feedback">Введите сумму.</div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="inIndustry" class="form-label">Отрасль</label>
+                <select class="form-select" id="inIndustry" required>
+                  <option value="IT и разработка">IT и разработка</option>
+                  <option value="Маркетинг">Маркетинг</option>
+                  <option value="Финансы">Финансы</option>
+                  <option value="Образование">Образование</option>
+                  <option value="Торговля">Торговля</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="inExperience" class="form-label">Опыт работы</label>
+                <select class="form-select" id="inExperience" required>
+                  <option value="Без опыта">Без опыта</option>
+                  <option value="1–3 года">1–3 года</option>
+                  <option value="3–6 лет">3–6 лет</option>
+                  <option value="Более 6 лет">Более 6 лет</option>
+                </select>
+              </div>
+
+              <div class="col-md-6">
+                <label for="inCity" class="form-label">Город</label>
+                <input type="text" class="form-control" id="inCity" required>
+                <div class="invalid-feedback">Укажите город.</div>
+              </div>
+              <div class="col-md-6">
+                <label for="inSkills" class="form-label">Навыки через запятую</label>
+                <input type="text" class="form-control" id="inSkills" placeholder="HTML, CSS, JavaScript">
+              </div>
+
+              <div class="col-12">
+                <label for="inAbout" class="form-label">О себе</label>
+                <textarea class="form-control" id="inAbout" rows="4" maxlength="500"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Отмена</button>
+            <button type="submit" class="btn btn-primary">Сохранить резюме</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Уведомление после сохранения -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="saveToast" class="toast text-bg-success" role="status" aria-live="polite" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">Резюме сохранено.</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                data-bs-dismiss="toast" aria-label="Закрыть"></button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer py-4">
+    <div class="container text-secondary small">
+      © <span id="current-year">2026</span> Работа рядом. Учебный проект, ИТМО.
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/profile.js"></script>
+</body>
+</html>
