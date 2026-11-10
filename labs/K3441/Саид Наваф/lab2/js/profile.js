@@ -1,78 +1,188 @@
+// Личный кабинет соискателя: резюме и отклики хранятся на сервере (API).
+//   GET  /resumes?userId=...            получить резюме
+//   POST /resumes, PATCH /resumes/:id   создать и изменить резюме
+//   GET  /responses?userId=...&_expand=vacancy   отклики вместе с вакансиями
 
-const resumeForm = document.getElementById("resumeForm");
-const resumeModalEl = document.getElementById("editResumeModal");
+const auth = requireAuth("seeker"); // страница только для вошедших соискателей
+let resume = null;
 
-
-const view = {
-  position: document.getElementById("resumePosition"),
-  positionShort: document.getElementById("resumePositionShort"),
-  salary: document.getElementById("resumeSalary"),
-  industry: document.getElementById("resumeIndustry"),
-  experience: document.getElementById("resumeExperience"),
-  skills: document.getElementById("resumeSkills"),
-  about: document.getElementById("resumeAbout"),
-  city: document.getElementById("cityText"),
-};
+const $ = (id) => document.getElementById(id);
+const resumeForm = $("resumeForm");
+const resumeModalEl = $("editResumeModal");
 
 const fields = {
-  position: document.getElementById("inPosition"),
-  salary: document.getElementById("inSalary"),
-  industry: document.getElementById("inIndustry"),
-  experience: document.getElementById("inExperience"),
-  city: document.getElementById("inCity"),
-  skills: document.getElementById("inSkills"),
-  about: document.getElementById("inAbout"),
+  position: $("inPosition"),
+  salary: $("inSalary"),
+  industry: $("inIndustry"),
+  experience: $("inExperience"),
+  city: $("inCity"),
+  skills: $("inSkills"),
+  about: $("inAbout"),
 };
 
-
-function formatSalary(value) {
-  return "от " + Number(value).toLocaleString("ru-RU") + " ₽";
+// Заполняем выпадающие списки из справочников (в value храним код, в тексте подпись)
+function fillSelect(select, map) {
+  select.replaceChildren(...Object.entries(map).map(([value, label]) => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = label;
+    return option;
+  }));
 }
 
-
-function renderSkills(text) {
-  view.skills.innerHTML = "";
-  text
-    .split(",")
-    .map((s) => s.trim())
-    .filter((s) => s.length > 0)
-    .forEach((skill) => {
-      const badge = document.createElement("span");
-      badge.className = "badge text-bg-primary";
-      badge.textContent = skill;
-      view.skills.appendChild(badge);
-    });
+function showToast(text, type) {
+  const toast = $("saveToast");
+  toast.className = "toast text-bg-" + (type || "success");
+  toast.querySelector(".toast-body").textContent = text;
+  bootstrap.Toast.getOrCreateInstance(toast).show();
 }
 
+function initials(name) {
+  return name.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join("");
+}
+
+function renderUser() {
+  $("fullName").textContent = auth.user.name;
+  $("avatarInitials").textContent = initials(auth.user.name);
+  $("profileEmail").textContent = auth.user.email;
+}
+
+function renderResume() {
+  const hasResume = resume !== null;
+  $("resumeEmpty").classList.toggle("d-none", hasResume);
+  $("resumeContent").classList.toggle("d-none", !hasResume);
+  $("cityText").textContent = hasResume ? resume.city : "не указан";
+  $("resumePositionShort").textContent = hasResume ? resume.position : "Резюме не заполнено";
+  if (!hasResume) {
+    return;
+  }
+
+  $("resumePosition").textContent = resume.position;
+  $("resumeSalary").textContent = "от " + Number(resume.salary).toLocaleString("ru-RU") + " ₽";
+  $("resumeExperience").textContent = EXPERIENCES[resume.experience] || resume.experience;
+  $("resumeIndustry").textContent = INDUSTRIES[resume.industry] || resume.industry;
+  $("resumeAbout").textContent = resume.about || "Не заполнено";
+  $("resumeSkills").replaceChildren(...(resume.skills || []).map((skill) => {
+    const badge = document.createElement("span");
+    badge.className = "badge text-bg-primary";
+    badge.textContent = skill; // textContent, а не innerHTML: нельзя вставить чужой HTML
+    return badge;
+  }));
+}
+
+const STATUSES = {
+  pending: ["На рассмотрении", "text-bg-warning"],
+  invited: ["Приглашение", "text-bg-success"],
+  rejected: ["Отказ", "text-bg-secondary"],
+};
+
+function renderResponses(responses) {
+  const body = $("responsesBody");
+  if (responses.length === 0) {
+    const row = document.createElement("tr");
+    const cell = document.createElement("td");
+    cell.colSpan = 3;
+    cell.className = "text-secondary";
+    cell.textContent = "Откликов пока нет. Найдите вакансию и нажмите «Откликнуться».";
+    row.appendChild(cell);
+    body.replaceChildren(row);
+    return;
+  }
+
+  body.replaceChildren(...responses.map((item) => {
+    const row = document.createElement("tr");
+
+    const titleCell = document.createElement("td");
+    const link = document.createElement("a");
+    link.href = "vacancy.html?id=" + encodeURIComponent(item.vacancyId);
+    link.textContent = item.vacancy ? item.vacancy.title : "Вакансия удалена";
+    titleCell.appendChild(link);
+
+    const companyCell = document.createElement("td");
+    companyCell.textContent = item.vacancy ? item.vacancy.company : "—";
+
+    const statusCell = document.createElement("td");
+    const [label, cls] = STATUSES[item.status] || [item.status, "text-bg-light"];
+    const badge = document.createElement("span");
+    badge.className = "badge " + cls;
+    badge.textContent = label;
+    statusCell.appendChild(badge);
+
+    row.append(titleCell, companyCell, statusCell);
+    return row;
+  }));
+}
+
+async function loadData() {
+  try {
+    const resumes = await apiFetch("/resumes?userId=" + auth.user.id);
+    resume = resumes[0] || null;
+    renderResume();
+  } catch (error) {
+    showToast(getErrorMessage(error), "danger");
+  }
+
+  try {
+    const responses = await apiFetch("/responses?userId=" + auth.user.id + "&_expand=vacancy");
+    renderResponses(responses);
+  } catch (error) {
+    $("responsesBody").innerHTML = "";
+    showToast(getErrorMessage(error), "danger");
+  }
+}
+
+// При открытии окна заполняем форму текущим резюме (или пустыми значениями)
 resumeModalEl.addEventListener("show.bs.modal", () => {
-  fields.position.value = view.position.textContent;
-  fields.salary.value = view.salary.textContent.replace(/\D/g, "");
-  fields.industry.value = view.industry.textContent;
-  fields.experience.value = view.experience.textContent;
-  fields.city.value = view.city.textContent;
-  fields.about.value = view.about.textContent;
-  fields.skills.value = Array.from(view.skills.children)
-    .map((el) => el.textContent)
-    .join(", ");
+  const data = resume || {};
+  fields.position.value = data.position || "";
+  fields.salary.value = data.salary || "";
+  fields.industry.value = data.industry || "it";
+  fields.experience.value = data.experience || "none";
+  fields.city.value = data.city || "";
+  fields.skills.value = (data.skills || []).join(", ");
+  fields.about.value = data.about || "";
   resumeForm.classList.remove("was-validated");
 });
 
-resumeForm.addEventListener("submit", (event) => {
+// Сохранение: PATCH, если резюме уже есть, и POST, если его ещё нет
+resumeForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   if (!resumeForm.checkValidity()) {
     resumeForm.classList.add("was-validated");
     return;
   }
 
-  view.position.textContent = fields.position.value.trim();
-  view.positionShort.textContent = fields.position.value.trim();
-  view.salary.textContent = formatSalary(fields.salary.value);
-  view.industry.textContent = fields.industry.value;
-  view.experience.textContent = fields.experience.value;
-  view.city.textContent = fields.city.value.trim();
-  view.about.textContent = fields.about.value.trim();
-  renderSkills(fields.skills.value);
+  const data = {
+    position: fields.position.value.trim(),
+    salary: Number(fields.salary.value),
+    industry: fields.industry.value,
+    experience: fields.experience.value,
+    city: fields.city.value.trim(),
+    skills: fields.skills.value.split(",").map((s) => s.trim()).filter(Boolean),
+    about: fields.about.value.trim(),
+  };
 
-  bootstrap.Modal.getInstance(resumeModalEl).hide();
-  bootstrap.Toast.getOrCreateInstance(document.getElementById("saveToast")).show();
+  const submitBtn = resumeForm.querySelector('button[type="submit"]');
+  submitBtn.disabled = true;
+  try {
+    if (resume) {
+      resume = await apiFetch("/resumes/" + resume.id, { method: "PATCH", body: JSON.stringify(data) });
+    } else {
+      resume = await apiFetch("/resumes", { method: "POST", body: JSON.stringify({ userId: auth.user.id, ...data }) });
+    }
+    renderResume();
+    bootstrap.Modal.getInstance(resumeModalEl).hide();
+    showToast("Резюме сохранено.");
+  } catch (error) {
+    showToast(getErrorMessage(error), "danger");
+  } finally {
+    submitBtn.disabled = false;
+  }
 });
+
+if (auth) {
+  fillSelect(fields.industry, INDUSTRIES);
+  fillSelect(fields.experience, EXPERIENCES);
+  renderUser();
+  loadData();
+}

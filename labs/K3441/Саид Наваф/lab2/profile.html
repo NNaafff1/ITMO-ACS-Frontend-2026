@@ -49,7 +49,7 @@
               <h2 class="h5 mb-1" id="fullName">Саид Наваф</h2>
               <p class="text-secondary mb-3" id="resumePositionShort">Frontend-разработчик</p>
               <ul class="list-unstyled text-start small mb-0">
-                <li class="mb-1"><span class="text-secondary">Почта:</span> name@example.com</li>
+                <li class="mb-1"><span class="text-secondary">Почта:</span> <span id="profileEmail">…</span></li>
                 <li class="mb-1"><span class="text-secondary">Город:</span> <span id="cityText">Санкт-Петербург</span></li>
                 <li><span class="text-secondary">Роль:</span> соискатель</li>
               </ul>
@@ -78,6 +78,11 @@
             <div class="tab-pane fade show active" id="resume" role="tabpanel" aria-labelledby="resume-tab" tabindex="0">
               <div class="card profile-card">
                 <div class="card-body p-4">
+                  <div id="resumeEmpty" class="text-center py-4 d-none">
+                    <p class="text-secondary mb-3">Резюме пока не заполнено.</p>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#editResumeModal">Создать резюме</button>
+                  </div>
+                  <div id="resumeContent" class="d-none">
                   <div class="d-flex justify-content-between align-items-start mb-4">
                     <div>
                       <h2 class="h4 mb-1" id="resumePosition">Frontend-разработчик</h2>
@@ -114,18 +119,7 @@
                     <div class="resume-label">О себе</div>
                     <p class="mb-0" id="resumeAbout">Студент ИТМО. Верстаю адаптивные сайты и учусь работать с Vue.js.</p>
                   </div>
-
-                  <h3 class="h6 fw-bold">Места работы и учёбы</h3>
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item px-0">
-                      <div class="fw-semibold">Университет ИТМО</div>
-                      <div class="text-secondary small">Бакалавриат, 2023 — настоящее время</div>
-                    </li>
-                    <li class="list-group-item px-0">
-                      <div class="fw-semibold">Учебные проекты</div>
-                      <div class="text-secondary small">Вёрстка сайтов на HTML, CSS и Bootstrap</div>
-                    </li>
-                  </ul>
+                  </div>
                 </div>
               </div>
             </div>
@@ -134,8 +128,7 @@
             <div class="tab-pane fade" id="responses" role="tabpanel" aria-labelledby="responses-tab" tabindex="0">
               <div class="card profile-card">
                 <div class="table-responsive">
-                  <table class="table align-middle mb-0">
-                    <caption class="visually-hidden">Список откликов на вакансии</caption>
+                  <table class="table align-middle mb-0" aria-label="Список откликов на вакансии">
                     <thead>
                       <tr>
                         <th scope="col">Вакансия</th>
@@ -143,22 +136,8 @@
                         <th scope="col">Статус</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr>
-                        <td><a href="vacancy.html">Junior Frontend-разработчик</a></td>
-                        <td>Нева Софт</td>
-                        <td><span class="badge text-bg-warning">На рассмотрении</span></td>
-                      </tr>
-                      <tr>
-                        <td><a href="vacancy.html">Верстальщик</a></td>
-                        <td>Веб-студия «Пиксель»</td>
-                        <td><span class="badge text-bg-success">Приглашение</span></td>
-                      </tr>
-                      <tr>
-                        <td><a href="vacancy.html">Стажёр-разработчик</a></td>
-                        <td>Балтика Диджитал</td>
-                        <td><span class="badge text-bg-secondary">Отказ</span></td>
-                      </tr>
+                    <tbody id="responsesBody">
+                      <tr><td colspan="3" class="text-secondary">Загрузка…</td></tr>
                     </tbody>
                   </table>
                 </div>
