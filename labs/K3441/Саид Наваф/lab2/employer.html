@@ -41,7 +41,7 @@
       <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
         <div>
           <h1 class="h3 fw-bold mb-1">Кабинет работодателя</h1>
-          <p class="text-secondary mb-0">Нева Софт</p>
+          <p class="text-secondary mb-0" id="companyTitle">…</p>
         </div>
         <button type="button" class="btn btn-primary" id="addVacancyBtn"
                 data-bs-toggle="modal" data-bs-target="#vacancyModal">
@@ -54,19 +54,19 @@
         <div class="col-sm-4">
           <div class="card stat-card"><div class="card-body">
             <div class="text-secondary small">Активные вакансии</div>
-            <div class="stat-value" id="statActive">2</div>
+            <div class="stat-value" id="statActive">…</div>
           </div></div>
         </div>
         <div class="col-sm-4">
           <div class="card stat-card"><div class="card-body">
             <div class="text-secondary small">Закрытые вакансии</div>
-            <div class="stat-value" id="statClosed">1</div>
+            <div class="stat-value" id="statClosed">…</div>
           </div></div>
         </div>
         <div class="col-sm-4">
           <div class="card stat-card"><div class="card-body">
             <div class="text-secondary small">Всего откликов</div>
-            <div class="stat-value" id="statResponses">29</div>
+            <div class="stat-value" id="statResponses">…</div>
           </div></div>
         </div>
       </div>
@@ -77,8 +77,7 @@
           <h2 class="h5 fw-bold" id="tableTitle">Мои вакансии</h2>
         </div>
         <div class="table-responsive">
-          <table class="table align-middle mb-0">
-            <caption class="visually-hidden">Список вакансий компании</caption>
+          <table class="table align-middle mb-0" aria-label="Список вакансий компании">
             <thead>
               <tr>
                 <th scope="col">Вакансия</th>
@@ -90,42 +89,7 @@
               </tr>
             </thead>
             <tbody id="vacancyRows">
-                  <tr data-title="Junior Frontend-разработчик" data-industry="IT и разработка" data-salary="90000" data-experience="1–3 года" data-city="Санкт-Петербург" data-description="" data-responses="14" data-active="true">
-                    <th scope="row" class="fw-semibold"><span class="row-title">Junior Frontend-разработчик</span><div class="text-secondary small fw-normal row-city">Санкт-Петербург</div></th>
-                    <td class="row-industry">IT и разработка</td>
-                    <td class="row-salary">от 90 000 ₽</td>
-                    <td class="row-responses">14</td>
-                    <td class="row-status"><span class="badge text-bg-success">Активна</span></td>
-                    <td class="text-end text-nowrap">
-                      <button type="button" class="btn btn-sm btn-outline-primary" data-action="edit">Изменить</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary" data-action="toggle">Закрыть</button>
-                      <button type="button" class="btn btn-sm btn-outline-danger" data-action="delete">Удалить</button>
-                    </td>
-                  </tr>
-                  <tr data-title="Старший frontend-разработчик" data-industry="IT и разработка" data-salary="250000" data-experience="Более 6 лет" data-city="Удалённо" data-description="" data-responses="6" data-active="true">
-                    <th scope="row" class="fw-semibold"><span class="row-title">Старший frontend-разработчик</span><div class="text-secondary small fw-normal row-city">Удалённо</div></th>
-                    <td class="row-industry">IT и разработка</td>
-                    <td class="row-salary">от 250 000 ₽</td>
-                    <td class="row-responses">6</td>
-                    <td class="row-status"><span class="badge text-bg-success">Активна</span></td>
-                    <td class="text-end text-nowrap">
-                      <button type="button" class="btn btn-sm btn-outline-primary" data-action="edit">Изменить</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary" data-action="toggle">Закрыть</button>
-                      <button type="button" class="btn btn-sm btn-outline-danger" data-action="delete">Удалить</button>
-                    </td>
-                  </tr>
-                  <tr data-title="QA-инженер" data-industry="IT и разработка" data-salary="110000" data-experience="1–3 года" data-city="Санкт-Петербург" data-description="" data-responses="9" data-active="false">
-                    <th scope="row" class="fw-semibold"><span class="row-title">QA-инженер</span><div class="text-secondary small fw-normal row-city">Санкт-Петербург</div></th>
-                    <td class="row-industry">IT и разработка</td>
-                    <td class="row-salary">от 110 000 ₽</td>
-                    <td class="row-responses">9</td>
-                    <td class="row-status"><span class="badge text-bg-secondary">Закрыта</span></td>
-                    <td class="text-end text-nowrap">
-                      <button type="button" class="btn btn-sm btn-outline-primary" data-action="edit">Изменить</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary" data-action="toggle">Открыть</button>
-                      <button type="button" class="btn btn-sm btn-outline-danger" data-action="delete">Удалить</button>
-                    </td>
-                  </tr>
+              <tr><td colspan="6" class="text-secondary">Загрузка…</td></tr>
             </tbody>
           </table>
         </div>
