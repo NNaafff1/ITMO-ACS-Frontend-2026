@@ -1,4 +1,6 @@
+// Скрипт страниц входа и регистрации: работает с API (json-server-auth).
 
+// 1. Кнопки «Показать / Скрыть» у полей пароля
 document.querySelectorAll(".js-toggle-password").forEach((btn) => {
   btn.addEventListener("click", () => {
     const input = document.getElementById(btn.dataset.target);
@@ -9,6 +11,50 @@ document.querySelectorAll(".js-toggle-password").forEach((btn) => {
   });
 });
 
+// 2. Общие помощники для обеих форм
+function showFormError(form, message) {
+  let box = document.getElementById("formError");
+  if (!box) {
+    box = document.createElement("div");
+    box.id = "formError";
+    box.className = "alert alert-danger";
+    box.setAttribute("role", "alert");
+    form.prepend(box);
+  }
+  box.textContent = message;
+}
+
+function hideFormError() {
+  const box = document.getElementById("formError");
+  if (box) {
+    box.remove();
+  }
+}
+
+// После входа или регистрации отправляем в нужный кабинет
+function redirectAfterAuth(user) {
+  window.location.href = user.role === "employer" ? "employer.html" : "profile.html";
+}
+
+// Выполняет запрос, блокируя кнопку на время ожидания, и показывает ошибку, если она случилась
+async function runAuthRequest(form, request) {
+  const button = form.querySelector('button[type="submit"]');
+  const label = button.textContent;
+  button.disabled = true;
+  button.textContent = "Подождите…";
+  hideFormError();
+
+  try {
+    const data = await request();
+    redirectAfterAuth(data.user);
+  } catch (error) {
+    showFormError(form, getErrorMessage(error));
+    button.disabled = false;
+    button.textContent = label;
+  }
+}
+
+// 3. Форма входа: POST /login
 const loginForm = document.getElementById("loginForm");
 if (loginForm) {
   loginForm.addEventListener("submit", (event) => {
@@ -17,10 +63,23 @@ if (loginForm) {
       loginForm.classList.add("was-validated");
       return;
     }
-    window.location.href = "profile.html";
+
+    runAuthRequest(loginForm, async () => {
+      const data = await apiFetch("/login", {
+        method: "POST",
+        body: JSON.stringify({
+          email: document.getElementById("loginEmail").value.trim().toLowerCase(),
+          password: document.getElementById("loginPassword").value,
+        }),
+      });
+      setAuth(data, document.getElementById("rememberMe").checked);
+      return data;
+    });
   });
 }
 
+// 4. Окно «Забыли пароль?». В json-server-auth нет восстановления пароля,
+// поэтому это имитация: настоящее письмо не отправляется.
 const resetForm = document.getElementById("resetForm");
 if (resetForm) {
   resetForm.addEventListener("submit", (event) => {
@@ -39,6 +98,7 @@ if (resetForm) {
   });
 }
 
+// 5. Форма регистрации: POST /register
 const registerForm = document.getElementById("registerForm");
 if (registerForm) {
   const pass1 = document.getElementById("regPassword");
@@ -57,8 +117,19 @@ if (registerForm) {
       registerForm.classList.add("was-validated");
       return;
     }
-   
-    const role = registerForm.elements["role"].value;
-    window.location.href = role === "employer" ? "employer.html" : "profile.html";
+
+    runAuthRequest(registerForm, async () => {
+      const data = await apiFetch("/register", {
+        method: "POST",
+        body: JSON.stringify({
+          name: document.getElementById("regName").value.trim(),
+          email: document.getElementById("regEmail").value.trim().toLowerCase(),
+          password: pass1.value,
+          role: registerForm.elements["role"].value,
+        }),
+      });
+      setAuth(data, true);
+      return data;
+    });
   });
 }
