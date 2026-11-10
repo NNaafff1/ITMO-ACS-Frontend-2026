@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Junior Frontend-разработчик — Работа рядом</title>
+  <title>Вакансия — Работа рядом</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -43,104 +43,67 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Главная</a></li>
           <li class="breadcrumb-item"><a href="vacancies.html">Вакансии</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Junior Frontend-разработчик</li>
+          <li class="breadcrumb-item active" aria-current="page" id="crumbTitle">Вакансия</li>
         </ol>
       </nav>
 
-      <div class="row g-4">
+      <div class="text-center py-5" id="pageLoader" role="status">
+        <div class="spinner-border text-primary" aria-hidden="true"></div>
+        <span class="visually-hidden">Загрузка…</span>
+      </div>
+      <div class="alert alert-danger d-none" id="pageError" role="alert"></div>
 
-        <!-- Основная колонка: описание вакансии -->
+      <div class="row g-4 d-none" id="vacancyContent">
+
         <div class="col-lg-8">
           <article class="card vacancy-card">
             <div class="card-body p-4">
               <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
                 <div>
-                  <h1 class="h3 fw-bold mb-1">Junior Frontend-разработчик</h1>
-                  <p class="text-secondary mb-2">Нева Софт · Санкт-Петербург</p>
-                  <p class="salary fs-4 mb-0">от 90&nbsp;000 ₽</p>
+                  <h1 class="h3 fw-bold mb-1" id="vTitle"></h1>
+                  <p class="text-secondary mb-2" id="vCompanyLine"></p>
+                  <p class="salary fs-4 mb-0" id="vSalary"></p>
                 </div>
-                <button type="button" class="btn btn-primary btn-lg" id="applyBtn"
-                        data-bs-toggle="modal" data-bs-target="#applyModal">
-                  Откликнуться
-                </button>
+                <button type="button" class="btn btn-primary btn-lg" id="applyBtn">Откликнуться</button>
               </div>
 
-              <div class="d-flex flex-wrap gap-2 mb-4">
-                <span class="badge text-bg-light border">IT и разработка</span>
-                <span class="badge text-bg-light border">Опыт 1–3 года</span>
-                <span class="badge text-bg-light border">Полная занятость</span>
-                <span class="badge text-bg-light border">Гибрид</span>
-              </div>
+              <div class="d-flex flex-wrap gap-2 mb-4" id="vBadges"></div>
 
               <section class="mb-4" aria-labelledby="descTitle">
                 <h2 class="h5 fw-bold" id="descTitle">Описание</h2>
-                <p>
-                  Мы разрабатываем сервисы для интернет-магазинов и ищем junior-разработчика
-                  в команду интерфейсов. Вы будете верстать страницы по макетам, подключать
-                  данные с сервера и учиться у более опытных коллег.
-                </p>
+                <p id="vDescription"></p>
               </section>
-
               <section class="mb-4" aria-labelledby="dutiesTitle">
                 <h2 class="h5 fw-bold" id="dutiesTitle">Обязанности</h2>
-                <ul>
-                  <li>Верстать адаптивные страницы по макетам Figma.</li>
-                  <li>Реализовывать интерактивные элементы на JavaScript.</li>
-                  <li>Исправлять ошибки и улучшать существующие интерфейсы.</li>
-                  <li>Участвовать в код-ревью и обсуждении задач.</li>
-                </ul>
+                <ul id="vDuties"></ul>
               </section>
-
               <section class="mb-4" aria-labelledby="reqTitle">
                 <h2 class="h5 fw-bold" id="reqTitle">Требования</h2>
-                <ul>
-                  <li>Знание HTML5 и CSS3, умение верстать по Flexbox и Grid.</li>
-                  <li>Опыт работы с Bootstrap или другим UI-фреймворком.</li>
-                  <li>Базовые знания JavaScript и работы с DOM.</li>
-                  <li>Знание Git: ветки, коммиты, pull request.</li>
-                </ul>
-                <p class="mb-1 fw-semibold">Будет плюсом:</p>
-                <ul class="mb-0">
-                  <li>Опыт с Vue.js.</li>
-                  <li>Понимание основ веб-доступности.</li>
-                </ul>
+                <ul id="vReqs"></ul>
               </section>
-
               <section aria-labelledby="condTitle">
                 <h2 class="h5 fw-bold" id="condTitle">Условия</h2>
-                <ul class="mb-0">
-                  <li>Оформление по ТК РФ, белая зарплата.</li>
-                  <li>Гибридный график: 2 дня в неделю в офисе.</li>
-                  <li>ДМС и компенсация обучения.</li>
-                  <li>Наставник на время испытательного срока.</li>
-                </ul>
+                <ul class="mb-0" id="vConds"></ul>
               </section>
             </div>
           </article>
         </div>
 
-        <!-- Боковая колонка: компания -->
         <aside class="col-lg-4" aria-label="О компании">
           <div class="card vacancy-card mb-3">
             <div class="card-body p-4">
               <div class="d-flex align-items-center gap-3 mb-3">
-                <div class="company-logo" aria-hidden="true">НС</div>
+                <div class="company-logo" aria-hidden="true" id="companyInitials"></div>
                 <div>
-                  <h2 class="h5 mb-0">Нева Софт</h2>
-                  <p class="text-secondary small mb-0">Разработка ПО</p>
+                  <h2 class="h5 mb-0" id="companyName"></h2>
+                  <p class="text-secondary small mb-0">Работодатель</p>
                 </div>
               </div>
-              <p class="small">
-                Компания работает с 2012 года и делает интернет-магазины и мобильные
-                приложения для клиентов по всей России.
-              </p>
               <dl class="row small mb-3">
-                <dt class="col-5 text-secondary fw-normal">Сотрудников</dt>
-                <dd class="col-7 mb-1">120</dd>
-                <dt class="col-5 text-secondary fw-normal">Город</dt>
-                <dd class="col-7 mb-1">Санкт-Петербург</dd>
-                <dt class="col-5 text-secondary fw-normal">Открыто вакансий</dt>
-                <dd class="col-7 mb-0">2</dd>
+                <dt class="col-6 text-secondary fw-normal">Город</dt>
+                <dd class="col-6 mb-1" id="companyCity"></dd>
+                <dt class="col-6 text-secondary fw-normal">Открыто вакансий</dt>
+                <dd class="col-6 mb-0" id="companyOpen">…</dd>
               </dl>
               <a class="btn btn-outline-primary w-100" href="vacancies.html">Все вакансии</a>
             </div>
@@ -149,15 +112,8 @@
           <div class="card vacancy-card">
             <div class="card-body p-4">
               <h2 class="h6 fw-bold mb-3">Похожие вакансии</h2>
-              <ul class="list-unstyled mb-0">
-                <li class="mb-2">
-                  <a href="vacancy.html" class="fw-semibold text-decoration-none">Верстальщик</a>
-                  <div class="text-secondary small">Веб-студия «Пиксель» · от 70&nbsp;000 ₽</div>
-                </li>
-                <li>
-                  <a href="vacancy.html" class="fw-semibold text-decoration-none">Старший frontend-разработчик</a>
-                  <div class="text-secondary small">Нева Софт · от 250&nbsp;000 ₽</div>
-                </li>
+              <ul class="list-unstyled mb-0" id="similarList">
+                <li class="text-secondary small">Загрузка…</li>
               </ul>
             </div>
           </div>
@@ -166,7 +122,6 @@
     </div>
   </main>
 
-  <!-- Модальное окно отклика -->
   <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -176,15 +131,15 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
           </div>
           <div class="modal-body">
-            <p class="text-secondary">Junior Frontend-разработчик, Нева Софт</p>
+            <p class="text-secondary" id="applyVacancyName"></p>
+
+            <div class="alert alert-warning d-none" id="noResume" role="alert">
+              У вас пока нет резюме. <a href="profile.html" class="alert-link">Создайте его в личном кабинете</a>, и вернитесь к отклику.
+            </div>
 
             <div class="mb-3">
               <label for="applyResume" class="form-label">Резюме</label>
-              <select class="form-select" id="applyResume" required>
-                <option value="">Выберите резюме</option>
-                <option value="1" selected>Frontend-разработчик</option>
-                <option value="2">Верстальщик</option>
-              </select>
+              <select class="form-select" id="applyResume" required></select>
               <div class="invalid-feedback">Выберите резюме.</div>
             </div>
 
@@ -197,7 +152,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Отмена</button>
-            <button type="submit" class="btn btn-primary">Отправить отклик</button>
+            <button type="submit" class="btn btn-primary" id="applySubmit">Отправить отклик</button>
           </div>
         </form>
       </div>
@@ -207,9 +162,8 @@
   <div class="toast-container position-fixed bottom-0 end-0 p-3">
     <div id="applyToast" class="toast text-bg-success" role="status" aria-live="polite" aria-atomic="true">
       <div class="d-flex">
-        <div class="toast-body">Отклик отправлен. Работодатель увидит его в своём кабинете.</div>
-        <button type="button" class="btn-close btn-close-white me-2 m-auto"
-                data-bs-dismiss="toast" aria-label="Закрыть"></button>
+        <div class="toast-body" id="applyToastText"></div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Закрыть"></button>
       </div>
     </div>
   </div>
