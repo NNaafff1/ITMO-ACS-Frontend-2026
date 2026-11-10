@@ -1,6 +1,3 @@
-// Страница вакансии: данные берутся с API по номеру из адреса (vacancy.html?id=1).
-// Отклик отправляется на сервер: POST /responses.
-
 const vacancyId = new URLSearchParams(window.location.search).get("id");
 
 const $ = (id) => document.getElementById(id);
@@ -33,7 +30,6 @@ function showPageError(message) {
   $("pageError").classList.remove("d-none");
 }
 
-// Кнопка «Вы откликнулись»: блокируем повторный отклик
 function markApplied() {
   applyBtn.textContent = "Вы откликнулись";
   applyBtn.classList.replace("btn-primary", "btn-success");
@@ -83,7 +79,6 @@ function renderVacancy(vacancy) {
   $("vacancyContent").classList.remove("d-none");
 }
 
-// Количество открытых вакансий компании и похожие вакансии: два дополнительных запроса
 async function loadExtras(vacancy) {
   try {
     const own = await apiFetch("/vacancies?active=true&userId=" + vacancy.userId);
@@ -115,12 +110,12 @@ async function loadExtras(vacancy) {
       return li;
     }));
   } catch (error) {
-    // Дополнительные блоки не критичны: страница вакансии работает и без них
+
     $("companyOpen").textContent = "—";
   }
 }
 
-// Если соискатель уже откликался, сразу показываем это на кнопке
+
 async function checkAlreadyApplied(vacancy) {
   const auth = getAuth();
   if (!auth || auth.user.role !== "seeker") {
@@ -132,7 +127,7 @@ async function checkAlreadyApplied(vacancy) {
       markApplied();
     }
   } catch (error) {
-    // не критично
+
   }
 }
 
@@ -152,7 +147,7 @@ async function loadVacancy() {
   checkAlreadyApplied(currentVacancy);
 }
 
-// Список резюме текущего пользователя для выпадающего списка в окне отклика
+
 async function loadResumes(auth) {
   const resumes = await apiFetch("/resumes?userId=" + auth.user.id);
   resumeSelect.replaceChildren();
@@ -177,7 +172,7 @@ async function loadResumes(auth) {
 applyBtn.addEventListener("click", async () => {
   const auth = getAuth();
   if (!auth) {
-    window.location.href = "login.html"; // откликнуться можно только после входа
+    window.location.href = "login.html";
     return;
   }
   if (auth.user.role !== "seeker") {

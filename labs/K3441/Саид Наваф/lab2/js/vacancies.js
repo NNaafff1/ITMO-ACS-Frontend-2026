@@ -1,6 +1,3 @@
-// Страница поиска: вакансии загружаются с API, фильтры превращаются в параметры запроса.
-// Пример запроса: GET /vacancies?active=true&industry=it&salary_gte=100000
-
 const filterForm = document.getElementById("filterForm");
 const searchInput = document.getElementById("fSearch");
 const industrySelect = document.getElementById("fIndustry");
@@ -13,7 +10,6 @@ const emptyMessage = document.getElementById("emptyMessage");
 const loadError = document.getElementById("loadError");
 const loader = document.getElementById("loader");
 
-// Короткий помощник: создаёт элемент с классом и текстом (textContent защищает от вставки HTML)
 function el(tag, className, text) {
   const node = document.createElement(tag);
   if (className) {
@@ -53,13 +49,11 @@ function createCard(vacancy) {
   return col;
 }
 
-// Номер последнего запроса: если ответ на старый запрос пришёл позже нового, его игнорируем
 let lastRequestId = 0;
 
 async function loadVacancies() {
   const requestId = ++lastRequestId;
 
-  // Собираем параметры запроса из значений фильтров
   const params = new URLSearchParams({ active: "true" });
   const query = searchInput.value.trim();
   if (query) {
@@ -103,7 +97,6 @@ async function loadVacancies() {
   }
 }
 
-// Чтобы не отправлять запрос на каждую букву, ждём 300 мс после последнего изменения
 let timer;
 function scheduleLoad() {
   clearTimeout(timer);

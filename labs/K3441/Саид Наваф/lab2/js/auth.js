@@ -1,6 +1,3 @@
-// Скрипт страниц входа и регистрации: работает с API (json-server-auth).
-
-// 1. Кнопки «Показать / Скрыть» у полей пароля
 document.querySelectorAll(".js-toggle-password").forEach((btn) => {
   btn.addEventListener("click", () => {
     const input = document.getElementById(btn.dataset.target);
@@ -11,7 +8,6 @@ document.querySelectorAll(".js-toggle-password").forEach((btn) => {
   });
 });
 
-// 2. Общие помощники для обеих форм
 function showFormError(form, message) {
   let box = document.getElementById("formError");
   if (!box) {
@@ -31,12 +27,10 @@ function hideFormError() {
   }
 }
 
-// После входа или регистрации отправляем в нужный кабинет
 function redirectAfterAuth(user) {
   window.location.href = user.role === "employer" ? "employer.html" : "profile.html";
 }
 
-// Выполняет запрос, блокируя кнопку на время ожидания, и показывает ошибку, если она случилась
 async function runAuthRequest(form, request) {
   const button = form.querySelector('button[type="submit"]');
   const label = button.textContent;
@@ -54,7 +48,7 @@ async function runAuthRequest(form, request) {
   }
 }
 
-// 3. Форма входа: POST /login
+
 const loginForm = document.getElementById("loginForm");
 if (loginForm) {
   loginForm.addEventListener("submit", (event) => {
@@ -78,8 +72,6 @@ if (loginForm) {
   });
 }
 
-// 4. Окно «Забыли пароль?». В json-server-auth нет восстановления пароля,
-// поэтому это имитация: настоящее письмо не отправляется.
 const resetForm = document.getElementById("resetForm");
 if (resetForm) {
   resetForm.addEventListener("submit", (event) => {
@@ -98,7 +90,6 @@ if (resetForm) {
   });
 }
 
-// 5. Форма регистрации: POST /register
 const registerForm = document.getElementById("registerForm");
 if (registerForm) {
   const pass1 = document.getElementById("regPassword");

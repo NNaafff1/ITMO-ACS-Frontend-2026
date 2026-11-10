@@ -1,10 +1,6 @@
-// Общий скрипт сайта: адрес API, авторизация, запросы к серверу и шапка.
-// Подключается на всех страницах ПЕРЕД скриптом самой страницы.
-
 const API_URL = "http://localhost:3000";
 const AUTH_KEY = "jobsite_auth";
 
-// Справочники: на сервере хранятся короткие коды, на странице показываем подписи
 const INDUSTRIES = {
   it: "IT и разработка",
   marketing: "Маркетинг",
@@ -19,9 +15,7 @@ const EXPERIENCES = {
   "6+": "Более 6 лет",
 };
 
-// ---------- Авторизация: токен хранится в браузере ----------
 
-// Читаем сохранённый вход: сначала из sessionStorage (до закрытия вкладки), потом из localStorage
 function getAuth() {
   try {
     const raw = sessionStorage.getItem(AUTH_KEY) || localStorage.getItem(AUTH_KEY);
@@ -31,7 +25,6 @@ function getAuth() {
   }
 }
 
-// remember = true: храним в localStorage (останется после закрытия браузера)
 function setAuth(data, remember) {
   clearAuth();
   const storage = remember ? localStorage : sessionStorage;
@@ -43,7 +36,7 @@ function clearAuth() {
   localStorage.removeItem(AUTH_KEY);
 }
 
-// Обновляем данные пользователя в хранилище (например, после смены имени)
+
 function updateStoredUser(user) {
   const auth = getAuth();
   if (!auth) {
@@ -53,7 +46,6 @@ function updateStoredUser(user) {
   storage.setItem(AUTH_KEY, JSON.stringify({ token: auth.token, user: user }));
 }
 
-// Страница доступна только вошедшим. role = "seeker" | "employer" | undefined (любая роль)
 function requireAuth(role) {
   const auth = getAuth();
   if (!auth) {
@@ -67,9 +59,7 @@ function requireAuth(role) {
   return auth;
 }
 
-// ---------- Запросы к API ----------
 
-// Единая обёртка над fetch: добавляет токен, разбирает JSON, превращает ошибки в исключения
 async function apiFetch(path, options = {}) {
   const auth = getAuth();
   const headers = { "Content-Type": "application/json", ...(options.headers || {}) };
@@ -97,7 +87,7 @@ async function apiFetch(path, options = {}) {
   }
 
   if (!response.ok) {
-    // Токен устарел или недействителен: выходим и отправляем на вход
+
     if (response.status === 401 && auth) {
       clearAuth();
       window.location.href = "login.html";
@@ -110,7 +100,7 @@ async function apiFetch(path, options = {}) {
   return data;
 }
 
-// Сообщения json-server-auth приходят на английском, показываем пользователю русский текст
+
 const API_ERRORS = {
   "Incorrect password": "Неверный пароль.",
   "Cannot find user": "Пользователь с такой почтой не найден.",
@@ -123,9 +113,7 @@ function getErrorMessage(error) {
   return API_ERRORS[error.message] || error.message || "Произошла ошибка.";
 }
 
-// ---------- Шапка сайта ----------
 
-// Если пользователь вошёл, вместо «Войти / Регистрация» показываем имя и кнопку «Выйти»
 function renderNavbar() {
   const auth = getAuth();
   const box = document.querySelector("#mainNav .d-flex");
@@ -148,7 +136,7 @@ function renderNavbar() {
   });
   box.append(name, logoutBtn);
 
-  // Работодателя «Мой кабинет» ведёт в его кабинет
+ 
   const cabinetLink = document.querySelector('#mainNav a[href="profile.html"]');
   if (cabinetLink && auth.user.role === "employer") {
     cabinetLink.href = "employer.html";
@@ -156,7 +144,7 @@ function renderNavbar() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Подставляем текущий год в футер
+ 
   const yearEl = document.getElementById("current-year");
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();

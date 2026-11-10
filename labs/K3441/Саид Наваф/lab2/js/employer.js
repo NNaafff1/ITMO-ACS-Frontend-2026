@@ -1,13 +1,7 @@
-// Кабинет работодателя: вакансии хранятся на сервере (API).
-//   GET    /vacancies?userId=...&_embed=responses   свои вакансии вместе с откликами
-//   POST   /vacancies                               создать
-//   PATCH  /vacancies/:id                           изменить и закрыть/открыть
-//   DELETE /vacancies/:id?_dependent=responses      удалить вместе с откликами
-
-const auth = requireAuth("employer"); // страница только для вошедших работодателей
+const auth = requireAuth("employer");
 let vacancies = [];
-let editingId = null; // id изменяемой вакансии (null = создаём новую)
-let idToDelete = null; // id вакансии, ожидающей подтверждения удаления
+let editingId = null;
+let idToDelete = null;
 
 const $ = (id) => document.getElementById(id);
 const tbody = $("vacancyRows");
@@ -44,7 +38,7 @@ function responsesCount(vacancy) {
   return (vacancy.responses || []).length;
 }
 
-// Карточки сверху считаем из загруженных вакансий
+
 function updateStats() {
   const active = vacancies.filter((v) => v.active).length;
   $("statActive").textContent = active;
@@ -126,7 +120,7 @@ function findVacancy(id) {
   return vacancies.find((v) => String(v.id) === String(id));
 }
 
-// Кнопки в таблице обрабатываем одним обработчиком на tbody (делегирование событий)
+
 tbody.addEventListener("click", async (event) => {
   const btn = event.target.closest("button[data-action]");
   if (!btn) {
@@ -174,7 +168,6 @@ tbody.addEventListener("click", async (event) => {
   }
 });
 
-// Кнопка «Добавить вакансию»: открываем чистую форму
 $("addVacancyBtn").addEventListener("click", () => {
   editingId = null;
   $("vacancyModalLabel").textContent = "Новая вакансия";
@@ -183,7 +176,6 @@ $("addVacancyBtn").addEventListener("click", () => {
   vacancyForm.classList.remove("was-validated");
 });
 
-// Сохранение формы: новая вакансия (POST) или изменение существующей (PATCH)
 vacancyForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   if (!vacancyForm.checkValidity()) {
@@ -223,7 +215,7 @@ vacancyForm.addEventListener("submit", async (event) => {
         }),
       });
       created.responses = [];
-      vacancies.unshift(created); // новые вакансии показываем сверху
+      vacancies.unshift(created);
       showToast("Вакансия опубликована.");
     }
     render();
@@ -235,7 +227,7 @@ vacancyForm.addEventListener("submit", async (event) => {
   }
 });
 
-// Подтверждение удаления
+
 $("confirmDelete").addEventListener("click", async () => {
   if (idToDelete === null) {
     return;

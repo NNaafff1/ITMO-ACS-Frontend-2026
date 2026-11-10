@@ -1,9 +1,4 @@
-// Личный кабинет соискателя: резюме и отклики хранятся на сервере (API).
-//   GET  /resumes?userId=...            получить резюме
-//   POST /resumes, PATCH /resumes/:id   создать и изменить резюме
-//   GET  /responses?userId=...&_expand=vacancy   отклики вместе с вакансиями
-
-const auth = requireAuth("seeker"); // страница только для вошедших соискателей
+const auth = requireAuth("seeker");
 let resume = null;
 
 const $ = (id) => document.getElementById(id);
@@ -20,7 +15,6 @@ const fields = {
   about: $("inAbout"),
 };
 
-// Заполняем выпадающие списки из справочников (в value храним код, в тексте подпись)
 function fillSelect(select, map) {
   select.replaceChildren(...Object.entries(map).map(([value, label]) => {
     const option = document.createElement("option");
@@ -65,7 +59,7 @@ function renderResume() {
   $("resumeSkills").replaceChildren(...(resume.skills || []).map((skill) => {
     const badge = document.createElement("span");
     badge.className = "badge text-bg-primary";
-    badge.textContent = skill; // textContent, а не innerHTML: нельзя вставить чужой HTML
+    badge.textContent = skill;
     return badge;
   }));
 }
@@ -131,7 +125,7 @@ async function loadData() {
   }
 }
 
-// При открытии окна заполняем форму текущим резюме (или пустыми значениями)
+
 resumeModalEl.addEventListener("show.bs.modal", () => {
   const data = resume || {};
   fields.position.value = data.position || "";
@@ -144,7 +138,7 @@ resumeModalEl.addEventListener("show.bs.modal", () => {
   resumeForm.classList.remove("was-validated");
 });
 
-// Сохранение: PATCH, если резюме уже есть, и POST, если его ещё нет
+
 resumeForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   if (!resumeForm.checkValidity()) {
