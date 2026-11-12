@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Кабинет работодателя — Работа рядом</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+  <!-- ДР2 (доступность): ссылка для пропуска навигации, видна только при фокусе с клавиатуры -->
+  <a class="visually-hidden-focusable skip-link" href="#main-content">Перейти к основному содержимому</a>
+
+
+  <header>
+    <nav class="navbar navbar-expand-lg bg-white border-bottom" aria-label="Основная навигация">
+      <div class="container">
+        <a class="navbar-brand text-primary" href="index.html">Работа рядом</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#mainNav" aria-controls="mainNav"
+                aria-expanded="false" aria-label="Открыть меню">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link" href="vacancies.html">Вакансии</a></li>
+            <li class="nav-item"><a class="nav-link" href="profile.html">Мой кабинет</a></li>
+            <li class="nav-item"><a class="nav-link active" href="employer.html" aria-current="page">Работодателям</a></li>
+          </ul>
+          <div class="d-flex gap-2">
+            <a class="btn btn-outline-primary" href="index.html">Выйти</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main-content" tabindex="-1" class="py-4">
+    <div class="container">
+
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+          <h1 class="h3 fw-bold mb-1">Кабинет работодателя</h1>
+          <p class="text-secondary mb-0" id="companyTitle">…</p>
+        </div>
+        <button type="button" class="btn btn-primary" id="addVacancyBtn"
+                data-bs-toggle="modal" data-bs-target="#vacancyModal">
+          Добавить вакансию
+        </button>
+      </div>
+
+      <!-- Сводка -->
+      <div class="row g-3 mb-4">
+        <div class="col-sm-4">
+          <div class="card stat-card"><div class="card-body">
+            <div class="text-secondary small">Активные вакансии</div>
+            <div class="stat-value" id="statActive">…</div>
+          </div></div>
+        </div>
+        <div class="col-sm-4">
+          <div class="card stat-card"><div class="card-body">
+            <div class="text-secondary small">Закрытые вакансии</div>
+            <div class="stat-value" id="statClosed">…</div>
+          </div></div>
+        </div>
+        <div class="col-sm-4">
+          <div class="card stat-card"><div class="card-body">
+            <div class="text-secondary small">Всего откликов</div>
+            <div class="stat-value" id="statResponses">…</div>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- Таблица вакансий -->
+      <section class="card stat-card" aria-labelledby="tableTitle">
+        <div class="card-body pb-0">
+          <h2 class="h5 fw-bold" id="tableTitle">Мои вакансии</h2>
+        </div>
+        <!-- ДР2: область прокрутки получает название (role="region"); до таблицы с клавиатуры добираются ссылки и кнопки внутри неё -->
+        <div class="table-responsive" role="region" aria-label="Таблица вакансий">
+          <table class="table align-middle mb-0" aria-label="Список вакансий компании">
+            <thead>
+              <tr>
+                <th scope="col">Вакансия</th>
+                <th scope="col">Отрасль</th>
+                <th scope="col">Зарплата</th>
+                <th scope="col">Отклики</th>
+                <th scope="col">Статус</th>
+                <th scope="col" class="text-end">Действия</th>
+              </tr>
+            </thead>
+            <!-- ЛР2: строки создаются в js/employer.js из ответа API -->
+            <tbody id="vacancyRows">
+              <tr><td colspan="6" class="text-secondary">Загрузка…</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="alert alert-secondary d-none m-3" id="emptyRows" role="status">
+          Вакансий пока нет. Нажмите «Добавить вакансию».
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Модальное окно: создание и изменение вакансии -->
+  <div class="modal fade" id="vacancyModal" tabindex="-1" aria-labelledby="vacancyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <form id="vacancyForm" class="needs-validation" novalidate>
+          <div class="modal-header">
+            <h2 class="modal-title fs-5" id="vacancyModalLabel">Новая вакансия</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row g-3">
+              <div class="col-md-8">
+                <label for="vTitle" class="form-label">Название</label>
+                <input type="text" class="form-control" id="vTitle" required aria-describedby="vTitleFeedback">
+                <div class="invalid-feedback" id="vTitleFeedback">Укажите название вакансии.</div>
+              </div>
+              <div class="col-md-4">
+                <label for="vSalary" class="form-label">Зарплата от, ₽</label>
+                <input type="number" class="form-control" id="vSalary" min="0" step="1000" required aria-describedby="vSalaryFeedback">
+                <div class="invalid-feedback" id="vSalaryFeedback">Введите сумму.</div>
+              </div>
+              <div class="col-md-4">
+                <label for="vIndustry" class="form-label">Отрасль</label>
+                <select class="form-select" id="vIndustry" required>
+                  <option value="IT и разработка">IT и разработка</option>
+                  <option value="Маркетинг">Маркетинг</option>
+                  <option value="Финансы">Финансы</option>
+                  <option value="Образование">Образование</option>
+                  <option value="Торговля">Торговля</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label for="vExperience" class="form-label">Опыт</label>
+                <select class="form-select" id="vExperience" required>
+                  <option value="Без опыта">Без опыта</option>
+                  <option value="1–3 года">1–3 года</option>
+                  <option value="3–6 лет">3–6 лет</option>
+                  <option value="Более 6 лет">Более 6 лет</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label for="vCity" class="form-label">Город</label>
+                <input type="text" class="form-control" id="vCity" required aria-describedby="vCityFeedback">
+                <div class="invalid-feedback" id="vCityFeedback">Укажите город.</div>
+              </div>
+              <div class="col-12">
+                <label for="vDescription" class="form-label">Описание и требования</label>
+                <textarea class="form-control" id="vDescription" rows="4" maxlength="1000"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Отмена</button>
+            <button type="submit" class="btn btn-primary" id="vacancySubmit">Опубликовать</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно: подтверждение удаления -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title fs-5" id="deleteModalLabel">Удалить вакансию?</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+        </div>
+        <div class="modal-body">
+          Вакансия «<span id="deleteName"></span>» и все отклики на неё будут удалены.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Отмена</button>
+          <button type="button" class="btn btn-danger" id="confirmDelete">Удалить</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="employerToast" class="toast text-bg-success" role="status" aria-live="polite" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body" id="employerToastText">Готово.</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                data-bs-dismiss="toast" aria-label="Закрыть"></button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer py-4">
+    <div class="container text-secondary small">
+      © <span id="current-year">2026</span> Работа рядом. Учебный проект, ИТМО.
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/employer.js"></script>
+</body>
+</html>
