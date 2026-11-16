@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+
+  <symbol id="icon-sun" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="4"/>
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+  </symbol>
+
+  <symbol id="icon-moon" viewBox="0 0 24 24">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>
+  </symbol>
+
+  <symbol id="icon-location" viewBox="0 0 24 24">
+    <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/>
+    <circle cx="12" cy="10" r="2.5"/>
+  </symbol>
+
+  <symbol id="icon-briefcase" viewBox="0 0 24 24">
+    <rect x="2" y="7" width="20" height="14" rx="2"/>
+    <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2M2 13h20"/>
+  </symbol>
+
+  <symbol id="icon-user" viewBox="0 0 24 24">
+    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+    <circle cx="12" cy="7" r="4"/>
+  </symbol>
+</svg>
