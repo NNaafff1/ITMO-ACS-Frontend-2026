@@ -1,8 +1,8 @@
 import instance from '@/api/instance'
-import NotesApi from '@/api/notes'
+import VacanciesApi from '@/api/vacancies'
 
-const notesApi = new NotesApi(instance)
+const vacanciesApi = new VacanciesApi(instance)
 
 export {
-  notesApi
+  vacanciesApi
 }

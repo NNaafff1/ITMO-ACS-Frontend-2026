@@ -1,18 +1,18 @@
-class NotesApi {
+class VacanciesApi {
   constructor(instance) {
     this.API = instance
   }
 
   getAll = async () => {
     return this.API({
-      url: '/notes'
+      url: '/vacancies'
     })
   }
 
-  createNote = async (data) => {
+  createVacancy = async (data) => {
     return this.API({
       method: 'POST',
-      url: '/notes',
+      url: '/vacancies',
       data,
       headers: {
         'Content-Type': 'application/json'
@@ -21,4 +21,4 @@ class NotesApi {
   }
 }
 
-export default NotesApi
+export default VacanciesApi
