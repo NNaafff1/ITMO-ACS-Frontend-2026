@@ -1,8 +1,8 @@
 {
-  "name": "notes-api",
+  "name": "vacancies-api",
   "version": "1.0.0",
   "private": true,
-  "description": "Мок-API заметок для ДЗ5",
+  "description": "Мок-API вакансий для ДЗ5",
   "scripts": {
     "start": "json-server db.json --port 3000"
   },
