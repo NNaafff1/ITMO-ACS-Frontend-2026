@@ -1,0 +1,13 @@
+{
+  "name": "job-site-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Моковое API для сайта поиска работы (ЛР3)",
+  "scripts": {
+    "start": "json-server db.json -m ./node_modules/json-server-auth -r routes.json --port 3000"
+  },
+  "dependencies": {
+    "json-server": "0.17.4",
+    "json-server-auth": "^2.1.0"
+  }
+}
